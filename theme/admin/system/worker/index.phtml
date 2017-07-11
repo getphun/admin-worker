@@ -1,0 +1,44 @@
+<?php $this->partial('shared/header'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                     Total result: <?= number_format($total, 0, '.', ',') ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="page-header">
+                <h3>Scheduled Worker</h3>
+            </div>
+            
+            <?php $can_delete = $this->can_i->remove_worker; ?>
+            
+            <?php if($jobs): ?>
+            <div class="list-group">
+                <?php foreach($jobs as $job): ?>
+                <div class="list-group-item">
+                    <?php if($can_delete): ?>
+                    <div class="btn-group btn-group-xs pull-right" role="group">
+                        <a href="<?= $this->router->to('adminWorkerRemove', ['name'=>$job->name], ['ref'=>$reff]) ?>" class="btn btn-default" title="Delete" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this job? This action can't be undone.">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <h4 class="list-group-item-heading"><?= $job->name ?> <small>v<?= date('M d, Y H:i', $job->time) ?></small></h4>
+                    <p class="list-group-item-text small">
+                        <span title="Target URL"><?= $job->url ?></span>
+                    </p>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+            
+        </div>
+    </div>
+</div>
+
+<?php $this->partial('shared/footer'); ?>
